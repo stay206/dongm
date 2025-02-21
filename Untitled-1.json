@@ -70,7 +70,7 @@
           "description": "",
           "iconUrl": "https://vdownload.hembed.com/image/icon/tab_logo.png?secure=EJYLwnrDlidVi_wFp3DaGw==,4867726124",
           "searchConfig": {
-            "searchUrl": "https://hanime1.me/search?query={keyword}&type=&genre=&sort=&year=&month=",
+            "searchUrl": "https://hanime1.me/search?query={keyword}",
             "searchUseOnlyFirstWord": true,
             "rawBaseUrl": "",
             "requestInterval": 5000,
