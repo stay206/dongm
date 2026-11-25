@@ -186,71 +186,74 @@
         }
       }
     },
-    {
-      "id": "cyc-dongman",
-      "factoryId": "web-selector",
-      "version": 2,
-      "arguments": {
-        "name": "次元城",
-        "description": "",
-        "iconUrl": "https://www.cycani.org/favicon.ico",
-        "searchConfig": {
-          "searchUrl": "https://www.cycani.org/category?q={keyword}",
-          "searchUseOnlyFirstWord": true,
-          "searchRemoveSpecial": true,
-          "rawBaseUrl": "",
-          "subjectFormatId": "json-path-indexed",
-          "selectorSubjectFormatA": {
-            "selectLists": "div.video-info-header > a",
-            "preferShorterName": true
-          },
-          "selectorSubjectFormatIndexed": {
-            "selectNames": "",
-            "selectLinks": "",
-            "preferShorterName": true
-          },
-          "selectorSubjectFormatJsonPathIndexed": {
-            "selectLinks": "$.list[*]['id']",
-            "selectNames": "$.list[*]['name']",
-            "linkTemplate": "/voddetail/{value}.html",
-            "preferShorterName": true
-          },
-          "channelFormatId": "index-grouped",
-          "selectorChannelFormatFlattened": {
-            "selectChannelNames": "#y-playList .module-tab-item:first-child span",
-            "matchChannelName": "",
-            "selectEpisodeLists": ".module-play-list-content",
-            "selectEpisodesFromList": "a",
-            "selectEpisodeLinksFromList": "",
-            "matchEpisodeSortFromName": "第\\s*(?<ep>.+)\\s*[话集]"
-          },
-          "selectorChannelFormatNoChannel": {
-            "selectEpisodes": ".module-play-list-content a.module-play-list-link",
-            "selectEpisodeLinks": "",
-            "matchEpisodeSortFromName": "第\\s*(?<ep>.+)\\s*[话集]"
-          },
-          "filterByEpisodeSort": true,
-          "selectMedia": {
-            "distinguishSubjectName": true,
-            "distinguishChannelName": true
-          },
-          "matchVideo": {
-            "enableNestedUrl": true,
-            "matchNestedUrl": "^https?://[^/]+/addons/dp/player/[^?]*\\.php\\?",
-            "matchVideoUrl": "(?<v>^https?://[^\\s]+\\.(mp4|m3u8)(\\?.*)?$)",
-            "addHeadersToVideo": {
-              "referer": ""
-            }
-          },
-          "defaultResolution": "1080P",
-          "defaultSubtitleLanguage": "CHS"
+   {
+  "id": "ciyuancheng",
+  "factoryId": "json-api",
+  "version": 1,
+  "arguments": {
+    "name": "次元城动画",
+    "description": "基于 cycani.org 公开 API。注意：播放接口需要登录，当前通用数据源无法自动获取播放地址。需要 Animeko 6.4.0+。",
+    "iconUrl": "https://www.cycani.org/favicon.ico",
+    "tier": 2,
+    "channelTiers": {},
+    "searchConfig": {
+      "baseUrl": "https://www.cycani.org/",
+      "headers": "Accept: application/json\nX-App-Name: cyc_web\nX-App-Version: cycweb\nX-Time-Zone: Asia/Shanghai",
+      "requestInterval": 2000,
+      "defaultResolution": "1080P",
+      "defaultSubtitleLanguage": "CHS",
+      "autoMatch": {
+        "enabled": true,
+        "searchUseOnlyFirstWord": false,
+        "searchRemoveSpecial": true,
+        "searchUseSubjectNamesCount": 2,
+        "preferShorterName": true,
+        "filterByEpisodeSort": true
+      },
+      "search": {
+        "request": {
+          "url": "https://www.cycani.org/api/videos/search?q={keyword}&page={page}&page_size={pageSize}",
+          "method": "GET"
         },
-        "tier": 1,
-        "channelTiers": {
-          "网页专线": 1
+        "pageSize": 50,
+        "selectItems": "$.data.list[*]",
+        "selectName": "$.title",
+        "selectId": "$.video_id",
+        "subjectUrlTemplate": "https://www.cycani.org/anime/{id}"
+      },
+      "subject": {
+        "request": {
+          "url": "https://www.cycani.org/api/videos/{id}/sections?player_code=cychub&page=1&page_size=100",
+          "method": "GET"
+        },
+        "channelFormatId": "declared",
+        "channelFormatDeclared": {
+          "channels": [
+            { "name": "次元城", "match": "cychub" }
+          ]
+        },
+        "episodes": {
+          "selectEpisodes": "$.data.list[*]",
+          "selectName": "$.title",
+          "selectId": "$.id",
+          "selectSort": "$.sort",
+          "matchEpisodeSortFromName": "第\\s*0*(?<ep>\\d+(?:\\.\\d+)?)\\s*[话集]?",
+          "nameTemplate": "{name}",
+          "episodeUrlTemplate": "https://www.cycani.org/anime/{subjectId}/play/{id}?from=cychub"
         }
+      },
+      "play": {
+        "request": {
+          "url": "https://www.cycani.org/api/v2/sections/{id}/play-url",
+          "method": "GET"
+        },
+        "selectVideoUrl": "$.data.url",
+        "fallbackToFirstCandidate": false,
+        "referer": "https://www.cycani.org/"
       }
-    },
+    }
+  }
+},
     {
       "id": "2k-dongman",
       "factoryId": "web-selector",
