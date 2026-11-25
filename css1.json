@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "mediaSources": [
-    {
+   {
   "id": "ciyuan-cheng",
   "clientVersions": ">=6.3.0",
   "factoryId": "json-api",
   "version": 1,
   "arguments": {
     "name": "次元城动画",
-    "description": "cycani.org。播放接口需要登录，请把 Authorization 里的 token 换成你自己的（网页登录后从 localStorage 的 cycweb:auth:v2 读取）。",
+    "description": "cycani.org 次元城动画。播放接口需要登录：把 play 阶段 Authorization 里的 YOUR_CYCANI_TOKEN 换成你自己的 token（网页登录后从 localStorage 的 cycweb:auth:v2 读取 token 字段）。",
     "iconUrl": "https://www.cycani.org/favicon.ico",
     "tier": 0,
     "searchConfig": {
@@ -64,7 +64,7 @@
         "request": {
           "url": "/api/v2/sections/{id}/play-url",
           "method": "GET",
-          "headers": "Authorization: Bearer <把你的 cycani 登录 token 填在这里>",
+          "headers": "Authorization: Bearer YOUR_CYCANI_TOKEN",
           "body": ""
         },
         "selectCandidates": "",
@@ -77,6 +77,7 @@
     }
   }
 }
+
     ]
   }
 
