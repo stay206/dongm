@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 2,
+  "name": "次元城动画",
+  "description": "cycani.org 数据源（播放需要填写自己的 token）",
+  "websiteUrl": "https://www.cycani.org",
+  "mediaSources": [
+    {
+      "id": "ciyuan-cheng",
+      "factoryId": "json-api",
+      "version": 1,
+      "arguments": {
+        "name": "次元城动画",
+        "description": "cycani.org 次元城动画。播放需要登录 token，当前已配置；token 过期后重新从网页 localStorage 的 cycweb:auth:v2 获取并替换 play 阶段请求头。",
+        "iconUrl": "https://www.cycani.org/favicon.ico",
+        "tier": 0,
+        "searchConfig": {
+          "baseUrl": "https://www.cycani.org",
+          "headers": "X-App-Name: cyc_web\nX-App-Version: cycweb\nX-Time-Zone: Asia/Shanghai",
+          "requestInterval": 1000,
+          "searchCacheTtl": 7200000,
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+          "defaultResolution": "1080P",
+          "defaultSubtitleLanguage": "CHS",
+          "autoMatch": {
+            "enabled": true,
+            "searchUseSubjectNamesCount": 3,
+            "preferShorterName": true,
+            "filterByEpisodeSort": true
+          },
+          "search": {
+            "request": {
+              "url": "/api/videos/search?q={keyword}&page={page}&page_size={pageSize}",
+              "method": "GET",
+              "headers": "",
+              "body": ""
+            },
+            "pageSize": 24,
+            "selectItems": "$.data.list[*]",
+            "selectName": "$.title",
+            "selectId": "$.video_id",
+            "selectAliases": "",
+            "subjectUrlTemplate": "https://www.cycani.org/anime/{id}"
+          },
+          "subject": {
+            "request": {
+              "url": "/api/videos/{id}/sections?player_code=cychub&page=1&page_size=100",
+              "method": "GET",
+              "headers": "",
+              "body": ""
+            },
+            "channelFormatId": "no-channel",
+            "episodes": {
+              "selectEpisodes": "$.data.list[*]",
+              "selectName": "$.title",
+              "selectId": "$.id",
+              "selectSort": "",
+              "selectType": "",
+              "typeMapping": "",
+              "matchEpisodeSortFromName": "(?<ep>\\d+(?:\\.\\d+)?)",
+              "nameTemplate": "{name}",
+              "episodeUrlTemplate": "https://www.cycani.org/anime/{subjectId}/play/{id}",
+              "selectVideoUrl": ""
+            }
+          },
+          "play": {
+            "request": {
+              "url": "/api/v2/sections/{id}/play-url",
+              "method": "GET",
+              "headers": "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOTYzMTgsInVzZXJuYW1lIjoiMjY2ODEzMTA2NCIsInRva2VuX2lkIjoiMDFNODlCV1FUNEdHOEcwWkJaWVY2Qk1YN1oiLCJ0b2tlbl92ZXJzaW9uIjoxLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwOTAiLCJhdWQiOlsiIl0sImV4cCI6MTc5NjIxNTU5NSwibmJmIjoxNzk1NjEwNzk1LCJpYXQiOjE3OTU2MTA3OTV9.x5fMQJutr0I1C3KQS9aSIF3f1kNBJkmE3z0-AgMg3og",
+              "body": ""
+            },
+            "selectCandidates": "",
+            "selectCandidateChannel": "",
+            "selectVideoUrl": "$.data.url",
+            "fallbackToFirstCandidate": true,
+            "referer": "https://www.cycani.org/",
+            "videoHeaders": "Origin: https://www.cycani.org"
+          }
+        }
+      }
+    }
+  ]
+}
